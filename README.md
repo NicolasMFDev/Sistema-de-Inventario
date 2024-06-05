@@ -72,4 +72,16 @@ Carlos Hernan Ruiz - Desarrollador
 
 ## Diagrama de Clases
 
-![Diagrama de Clases](diagrama_clase.jpg)
+![Diagrama de Clases](diagrama_clase.jpeg)
+
+`Main`: Es el controlador principal que maneja la interfaz gráfica y las ventanas de Producto, Cliente, Bodega y Categoria.
+
+`Producto, Cliente, Bodega y Categoria`: Cada una de estas clases maneja su propia ventana y las interacciones con la base de datos correspondientes a su dominio específico.
+
+`DB`: Este módulo proporciona la conexión a la base de datos y es utilizado por las clases Producto, Cliente, Bodega y Categoria.
+
+`Relaciones`:
+
+- Main: Contiene métodos que crean instancias de Producto, Cliente, Bodega y Categoria.
+
+- Producto, Cliente, Bodega y Categoria: Utilizan el módulo DB para realizar operaciones en la base de datos.

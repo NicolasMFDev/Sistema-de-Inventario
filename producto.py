@@ -19,8 +19,8 @@ class Producto:
         self.window = tk.Toplevel()
         self.window.title("Inventario")
         self.window.geometry("800x600+250-100")
-        self.window.minsize(900, 600)
-        self.window.maxsize(900, 600)
+        self.window.minsize(800, 600)
+        self.window.maxsize(800, 600)
         self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
 
         # Cargar el logo y ajustar su tamaño
