@@ -38,7 +38,7 @@ class Cliente:
         tk.Label(frame, text="Apellido").grid(row=1, column=0, padx=10)
         tk.Label(frame, text="Dirección").grid(row=2, column=0, padx=10)
         tk.Label(frame, text="Teléfono").grid(row=3, column=0, padx=10)
-        tk.Label(frame, text="Empresa").grid(row=4, column=0, padx=10)
+        tk.Label(frame, text="Producto").grid(row=4, column=0, padx=10)
 
         self.entry_nombre = tk.Entry(frame)
         self.entry_nombre.grid(row=0, column=1, padx=10)
@@ -78,7 +78,7 @@ class Cliente:
         tree_scroll = tk.Scrollbar(tree_frame)
         tree_scroll.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.tree = ttk.Treeview(tree_frame, columns=("ID", "Nombre", "Apellido", "Dirección", "Teléfono",  "Empresa"), show="headings", yscrollcommand=tree_scroll.set)
+        self.tree = ttk.Treeview(tree_frame, columns=("ID", "Nombre", "Apellido", "Dirección", "Teléfono",  "Producto"), show="headings", yscrollcommand=tree_scroll.set)
         self.tree.pack()
 
         tree_scroll.config(command=self.tree.yview)
@@ -88,14 +88,14 @@ class Cliente:
         self.tree.heading("Apellido", text="Apellido")
         self.tree.heading("Dirección", text="Dirección")
         self.tree.heading("Teléfono", text="Teléfono")
-        self.tree.heading("Empresa", text="Empresa")
+        self.tree.heading("Producto", text="Producto")
 
         self.tree.column("ID", anchor=tk.CENTER, width=50)
         self.tree.column("Nombre", anchor=tk.CENTER, width=150)
         self.tree.column("Apellido", anchor=tk.CENTER, width=150)
         self.tree.column("Dirección", anchor=tk.CENTER, width=200)
         self.tree.column("Teléfono", anchor=tk.CENTER, width=100)
-        self.tree.column("Empresa", anchor=tk.CENTER, width=100)
+        self.tree.column("Producto", anchor=tk.CENTER, width=100)
 
         self.tree.bind("<ButtonRelease-1>", self.seleccionar_cliente)
 
