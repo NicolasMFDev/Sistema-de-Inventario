@@ -28,7 +28,7 @@ class Cliente:
 
         title_frame = tk.Frame(self.window, bg="#f0f0f0")
         title_frame.pack(fill=tk.X)
-        title_label = tk.Label(title_frame, text="Gestión de Clientes", font=("Arial", 16), bg="#f0f0f0")
+        title_label = tk.Label(title_frame, text="GESTION DE CLIENTES", font=("Arial", 16), bg="#f0f0f0")
         title_label.pack(pady=10)
 
         frame = tk.Frame(self.window)
@@ -55,11 +55,17 @@ class Cliente:
         self.entry_empresa = tk.Entry(frame)
         self.entry_empresa.grid(row=4, column=1, padx=10)
 
-        btn_agregar = tk.Button(frame, text="Agregar Cliente", command=self.agregar_cliente, bg="#4CAF50", fg="white")
+        btn_agregar = tk.Button(frame, text="Agregar Cliente", command=self.agregar_cliente, bg="#008CBA", fg="white")
         btn_agregar.grid(row=5, column=0, pady=10)
 
-        btn_eliminar = tk.Button(frame, text="Eliminar Cliente", command=self.eliminar_cliente, bg="#f44336", fg="white")
-        btn_eliminar.grid(row=5, column=1)
+        btn_actualizar = tk.Button(frame, text="Actualizar", command=self.actualizar_item, bg="#008CBA", fg="white")
+        btn_actualizar.grid(row=5, column=1)
+
+        btn_eliminar = tk.Button(frame, text="Eliminar Cliente", command=self.eliminar_cliente, bg="#008CBA", fg="white")
+        btn_eliminar.grid(row=5, column=2)
+
+        btn_limpiar = tk.Button(frame, text="Limpiar", command=self.limpiar_campos, bg="#008CBA", fg="white")
+        btn_limpiar.grid(row=6, column=1)
 
         style = ttk.Style()
         style.configure("Treeview.Heading", font=("Arial", 12, "bold"), foreground="blue")
@@ -138,6 +144,33 @@ class Cliente:
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
+    def actualizar_item(self):
+        selected_item = self.tree.selection()
+        if not selected_item:
+            messagebox.showwarning("Advertencia", "Selecciona un elemento para actualizar")
+            return
+
+        item_id = self.tree.item(selected_item[0])["values"][0]
+        nombre = self.entry_nombre.get()
+        apellido = self.entry_apellido.get()
+        direccion = self.entry_direccion.get()
+        telefono = self.entry_telefono.get()
+        empresa = self.entry_empresa.get()
+
+        if nombre and apellido and direccion and telefono and empresa:
+            try:
+                conn = self.conectar_db()
+                cursor = conn.cursor()
+                cursor.execute("UPDATE clientes nombre = %s, apellido = %s, direccion = %s, telefono = %s, empresa = %s WHERE id = %s", (nombre, apellido, direccion, telefono, empresa, item_id))
+                conn.commit()
+                conn.close()
+                self.listar_clientes()
+                self.limpiar_campos()
+            except Exception as e:
+                messagebox.showerror("Error", str(e))
+        else:
+            messagebox.showwarning("Advertencia", "Todos los campos son obligatorios")        
+
     def seleccionar_cliente(self, event):
         seleccion = self.tree.selection()
         if seleccion:
@@ -176,6 +209,7 @@ class Cliente:
         self.entry_direccion.delete(0, tk.END)
         self.entry_telefono.delete(0, tk.END)
         self.entry_empresa.delete(0, tk.END)
+        self.tree.selection_remove(*self.tree.selection())
 
 
 

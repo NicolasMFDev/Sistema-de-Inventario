@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS inventario2;
+CREATE DATABASE IF NOT EXISTS inventario;
 
-USE inventario2;
+USE inventario;
 
 CREATE TABLE IF NOT EXISTS clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -21,9 +21,16 @@ CREATE TABLE IF NOT EXISTS items (
     nombre VARCHAR(255) NOT NULL,
     cantidad INT NOT NULL,
     precio DECIMAL(10, 2) NOT NULL,
-    descripcion TEXT NOT NULL,
-    categoria_id INT,
-    FOREIGN KEY (categoria_id) REFERENCES categoria(id)
+    categoria VARCHAR(255) NOT NULL,
+    descripcion TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS bodega (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    ubicacion VARCHAR(255) NOT NULL,
+    capa_max INT NOT NULL,
+    producto VARCHAR(255) NOT NULL
 );
 
 INSERT INTO categoria (nombre) VALUES
