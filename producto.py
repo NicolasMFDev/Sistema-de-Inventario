@@ -102,7 +102,7 @@ class Producto:
         tree_scroll = tk.Scrollbar(tree_frame)
         tree_scroll.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.tree = ttk.Treeview(tree_frame, columns=("ID", "Nombre", "Cantidad", "Precio", "Categoria", "Valor Total", "Descripcion"), show="headings", yscrollcommand=tree_scroll.set)
+        self.tree = ttk.Treeview(tree_frame, columns=("ID", "Nombre", "Cantidad", "Precio", "Categoria", "Valor Total", "Proveedor", "Descripcion"), show="headings", yscrollcommand=tree_scroll.set)
         self.tree.pack()
 
         tree_scroll.config(command=self.tree.yview)
@@ -113,6 +113,7 @@ class Producto:
         self.tree.heading("Precio", text="Precio")
         self.tree.heading("Categoria", text="Categoria")
         self.tree.heading("Valor Total", text="Valor Total")
+        self.tree.heading("Proveedor", text="Proveedor")
         self.tree.heading("Descripcion", text="Descripcion")
 
         self.tree.column("ID", anchor=tk.CENTER, width=50)
@@ -121,6 +122,7 @@ class Producto:
         self.tree.column("Precio", anchor=tk.CENTER, width=100)
         self.tree.column("Categoria", anchor=tk.CENTER, width=150)
         self.tree.column("Valor Total", anchor=tk.CENTER, width=100)
+        self.tree.column("Proveedor", anchor=tk.CENTER, width=150)
         self.tree.column("Descripcion", anchor=tk.CENTER, width=200)
 
         self.tree.bind("<ButtonRelease-1>", self.seleccionar_item)
@@ -163,12 +165,14 @@ class Producto:
         try:
             conn = self.conectar_db()
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM items")
+            cursor.execute("""SELECT items.*, clientes.nombre
+                FROM items
+                LEFT JOIN clientes ON items.nombre = clientes.empresa""")
             rows = cursor.fetchall()
             for row in rows:   
                 valor_total = f"{row[2] * row[3]:,}"  # Calcular el valor total (cantidad * precio)
                 cont = f"{row[3]:,}"
-                self.tree.insert("", "end", values=(row[0], row[1], row[2], cont, row[4], valor_total, row[5]))
+                self.tree.insert("", "end", values=(row[0], row[1], row[2], cont, row[4], valor_total, row[6],row[5]))
             conn.close()
         except Exception as e:
             messagebox.showerror("Error", str(e))
