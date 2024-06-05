@@ -169,7 +169,7 @@ class Cliente:
             except Exception as e:
                 messagebox.showerror("Error", str(e))
         else:
-            messagebox.showwarning("Advertencia", "Todos los campos son obligatorios")        
+            messagebox.showwarning("Alerta", "Todos los campos son obligatorios")        
 
     def seleccionar_cliente(self, event):
         seleccion = self.tree.selection()
